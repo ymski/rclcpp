@@ -69,6 +69,7 @@
 #include "rclcpp/time.hpp"
 #include "rclcpp/timer.hpp"
 #include "rclcpp/visibility_control.hpp"
+#include "rclcpp/introspection.hpp"
 
 namespace rclcpp
 {
@@ -1559,6 +1560,8 @@ private:
   rclcpp::node_interfaces::NodeParametersInterface::SharedPtr node_parameters_;
   rclcpp::node_interfaces::NodeTimeSourceInterface::SharedPtr node_time_source_;
   rclcpp::node_interfaces::NodeWaitablesInterface::SharedPtr node_waitables_;
+
+  std::shared_ptr<rclcpp::IntrospectionUtils> introspection_utils_;
 
   const rclcpp::NodeOptions node_options_;
   const std::string sub_namespace_;
