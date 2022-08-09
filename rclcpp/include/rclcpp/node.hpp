@@ -53,6 +53,7 @@
 #include "rclcpp/node_interfaces/node_logging_interface.hpp"
 #include "rclcpp/node_interfaces/node_parameters_interface.hpp"
 #include "rclcpp/node_interfaces/node_services_interface.hpp"
+#include "rclcpp/node_interfaces/node_service_introspection_interface.hpp"
 #include "rclcpp/node_interfaces/node_time_source_interface.hpp"
 #include "rclcpp/node_interfaces/node_timers_interface.hpp"
 #include "rclcpp/node_interfaces/node_topics_interface.hpp"
@@ -69,7 +70,6 @@
 #include "rclcpp/time.hpp"
 #include "rclcpp/timer.hpp"
 #include "rclcpp/visibility_control.hpp"
-#include "rclcpp/introspection.hpp"
 
 namespace rclcpp
 {
@@ -1560,8 +1560,7 @@ private:
   rclcpp::node_interfaces::NodeParametersInterface::SharedPtr node_parameters_;
   rclcpp::node_interfaces::NodeTimeSourceInterface::SharedPtr node_time_source_;
   rclcpp::node_interfaces::NodeWaitablesInterface::SharedPtr node_waitables_;
-
-  std::shared_ptr<rclcpp::IntrospectionUtils> introspection_utils_;
+  rclcpp::node_interfaces::NodeServiceIntrospectionInterface::SharedPtr node_service_introspection_;
 
   const rclcpp::NodeOptions node_options_;
   const std::string sub_namespace_;

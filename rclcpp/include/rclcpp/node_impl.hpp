@@ -154,7 +154,7 @@ Node::create_client(
     node_options_.enable_service_introspection()
     );
 
-  introspection_utils_->register_client(cli);
+  node_service_introspection_->register_client(cli);
   return cli;
 }
 
@@ -193,7 +193,8 @@ Node::create_service(
     group,
     node_options_.enable_service_introspection()
     );
-  introspection_utils_->register_service(serv);
+  
+  node_service_introspection_->register_service(serv);
   return serv;
 }
 

@@ -65,7 +65,6 @@ set(${PROJECT_NAME}_SRCS
   src/rclcpp/guard_condition.cpp
   src/rclcpp/init_options.cpp
   src/rclcpp/intra_process_manager.cpp
-  src/rclcpp/introspection.cpp
   src/rclcpp/logger.cpp
   src/rclcpp/logging_mutex.cpp
   src/rclcpp/memory_strategies.cpp
@@ -79,6 +78,7 @@ set(${PROJECT_NAME}_SRCS
   src/rclcpp/node_interfaces/node_logging.cpp
   src/rclcpp/node_interfaces/node_parameters.cpp
   src/rclcpp/node_interfaces/node_services.cpp
+  src/rclcpp/node_interfaces/node_service_introspection.cpp
   src/rclcpp/node_interfaces/node_time_source.cpp
   src/rclcpp/node_interfaces/node_timers.cpp
   src/rclcpp/node_interfaces/node_topics.cpp

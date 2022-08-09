@@ -26,13 +26,13 @@
 #include "rclcpp/detail/qos_parameters.hpp"
 #include "rclcpp/exceptions.hpp"
 #include "rclcpp/graph_listener.hpp"
-#include "rclcpp/introspection.hpp"
 #include "rclcpp/node.hpp"
 #include "rclcpp/node_interfaces/node_base.hpp"
 #include "rclcpp/node_interfaces/node_clock.hpp"
 #include "rclcpp/node_interfaces/node_graph.hpp"
 #include "rclcpp/node_interfaces/node_logging.hpp"
 #include "rclcpp/node_interfaces/node_parameters.hpp"
+#include "rclcpp/node_interfaces/node_service_introspection.hpp"
 #include "rclcpp/node_interfaces/node_services.hpp"
 #include "rclcpp/node_interfaces/node_time_source.hpp"
 #include "rclcpp/node_interfaces/node_timers.hpp"
@@ -208,10 +208,9 @@ Node::Node(
       options.use_clock_thread()
     )),
   node_waitables_(new rclcpp::node_interfaces::NodeWaitables(node_base_.get())),
-  introspection_utils_(new rclcpp::IntrospectionUtils(
-        node_base_,
-        node_parameters_
-        )),
+  node_service_introspection_(new rclcpp::node_interfaces::NodeServiceIntrospection(
+      node_base_,
+      node_parameters_)),
   node_options_(options),
   sub_namespace_(""),
   effective_namespace_(create_effective_namespace(this->get_namespace(), sub_namespace_))
