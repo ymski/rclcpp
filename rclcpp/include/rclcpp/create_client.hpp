@@ -45,15 +45,15 @@ create_client(
   std::shared_ptr<node_interfaces::NodeBaseInterface> node_base,
   std::shared_ptr<node_interfaces::NodeGraphInterface> node_graph,
   std::shared_ptr<node_interfaces::NodeServicesInterface> node_services,
+  std::shared_ptr<node_interfaces::NodeClockInterface> node_clock,
   const std::string & service_name,
   const rclcpp::QoS & qos = rclcpp::ServicesQoS(),
-  rclcpp::CallbackGroup::SharedPtr group = nullptr)
+  rclcpp::CallbackGroup::SharedPtr group = nullptr,
+  bool enable_service_introspection=false)
 {
   return create_client<ServiceT>(
-    node_base, node_graph, node_services,
-    service_name,
-    qos.get_rmw_qos_profile(),
-    group);
+    node_base, node_graph, node_services, node_clock, service_name,
+    qos.get_rmw_qos_profile(), group, enable_service_introspection);
 }
 
 /// Create a service client with a given type.

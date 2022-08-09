@@ -44,14 +44,16 @@ typename rclcpp::Service<ServiceT>::SharedPtr
 create_service(
   std::shared_ptr<node_interfaces::NodeBaseInterface> node_base,
   std::shared_ptr<node_interfaces::NodeServicesInterface> node_services,
+  std::shared_ptr<node_interfaces::NodeClockInterface> node_clock,
   const std::string & service_name,
   CallbackT && callback,
   const rclcpp::QoS & qos,
-  rclcpp::CallbackGroup::SharedPtr group)
+  rclcpp::CallbackGroup::SharedPtr group,
+  bool enable_service_introspection)
 {
   return create_service<ServiceT, CallbackT>(
-    node_base, node_services, service_name,
-    std::forward<CallbackT>(callback), qos.get_rmw_qos_profile(), group);
+    node_base, node_services, node_clock, service_name, std::forward<CallbackT>(callback),
+    qos.get_rmw_qos_profile(), group, enable_service_introspection);
 }
 
 
