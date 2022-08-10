@@ -47,9 +47,9 @@ create_client(
   std::shared_ptr<node_interfaces::NodeServicesInterface> node_services,
   std::shared_ptr<node_interfaces::NodeClockInterface> node_clock,
   const std::string & service_name,
-  const rclcpp::QoS & qos = rclcpp::ServicesQoS(),
-  rclcpp::CallbackGroup::SharedPtr group = nullptr,
-  bool enable_service_introspection=false)
+  const rclcpp::QoS & qos,
+  rclcpp::CallbackGroup::SharedPtr group,
+  bool enable_service_introspection)
 {
   return create_client<ServiceT>(
     node_base, node_graph, node_services, node_clock, service_name,
