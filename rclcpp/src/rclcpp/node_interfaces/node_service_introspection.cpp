@@ -14,7 +14,9 @@
 
 #include <functional>
 #include "rclcpp/node_interfaces/node_service_introspection.hpp"
-#include "rcl/introspection.h"
+#include "rcl/service_introspection.h"
+#include "rcl/client.h"
+#include "rcl/service.h"
 
 using rclcpp::node_interfaces::NodeServiceIntrospection;
 
@@ -52,9 +54,15 @@ NodeServiceIntrospection::NodeServiceIntrospection(
             if (srv->expired()) {
               srv = services_.erase(srv);
             } else {
-              ret = rcl_service_introspection_configure_service_events(
-                  srv->lock()->get_service_handle().get(), this->node_base_->get_rcl_node_handle(),
-                  param.get_value<bool>());
+              if (param.get_value<bool>()){
+                ret = rcl_service_introspection_enable_server_service_events(
+                    srv->lock()->get_service_handle().get(),
+                    this->node_base_->get_rcl_node_handle());
+              } else {
+                ret = rcl_service_introspection_disable_server_service_events(
+                    srv->lock()->get_service_handle().get(),
+                    this->node_base_->get_rcl_node_handle());
+              }
               if (RCL_RET_OK != ret) {
                 throw std::runtime_error("Could not configure service introspection events");
               }
@@ -65,11 +73,17 @@ NodeServiceIntrospection::NodeServiceIntrospection(
             if (clt->expired()){
               clt = clients_.erase(clt);
             } else {
-              ret = rcl_service_introspection_configure_client_events(
-                  clt->lock()->get_client_handle().get(), this->node_base_->get_rcl_node_handle(),
-                  param.get_value<bool>());
+              if (param.get_value<bool>()){
+                ret = rcl_service_introspection_enable_client_service_events(
+                    clt->lock()->get_client_handle().get(),
+                    this->node_base_->get_rcl_node_handle());
+              } else {
+                ret = rcl_service_introspection_disable_client_service_events(
+                    clt->lock()->get_client_handle().get(),
+                    this->node_base_->get_rcl_node_handle());
+              }
               if (RCL_RET_OK != ret) {
-                throw std::runtime_error("Could not configure client introspection events");
+                throw std::runtime_error("Could not configure service introspection events");
               }
             }
           }
@@ -78,8 +92,13 @@ NodeServiceIntrospection::NodeServiceIntrospection(
             if (srv->expired()){
               srv = services_.erase(srv);
             } else {
-              rcl_service_introspection_configure_service_content(
-                  srv->lock()->get_service_handle().get(), param.get_value<bool>());
+              if (param.get_value<bool>()){
+                rcl_service_introspection_enable_server_service_event_message_payload(
+                    srv->lock()->get_service_handle().get());
+              } else {
+                rcl_service_introspection_disable_server_service_event_message_payload(
+                    srv->lock()->get_service_handle().get());
+              }
             }
           }
         } else if (param.get_name() == RCL_SERVICE_INTROSPECTION_PUBLISH_CLIENT_EVENT_CONTENT_PARAMETER) {
@@ -87,8 +106,13 @@ NodeServiceIntrospection::NodeServiceIntrospection(
             if (clt->expired()){
               clt = clients_.erase(clt);
             } else {
-              rcl_service_introspection_configure_client_content(
-                  clt->lock()->get_client_handle().get(), param.get_value<bool>());
+              if (param.get_value<bool>()){
+                rcl_service_introspection_enable_client_service_event_message_payload(
+                    clt->lock()->get_client_handle().get());
+              } else {
+                rcl_service_introspection_disable_client_service_event_message_payload(
+                    clt->lock()->get_client_handle().get());
+              }
             }
           }
         }
