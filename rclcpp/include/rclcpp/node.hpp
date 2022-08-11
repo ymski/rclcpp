@@ -271,6 +271,22 @@ public:
     const rclcpp::QoS & qos = rclcpp::ServicesQoS(),
     rclcpp::CallbackGroup::SharedPtr group = nullptr);
 
+  /// Create and return a Client.
+  /**
+   * \param[in] service_name The name on which the service is accessible.
+   * \param[in] qos Quality of service profile for client.
+   * \param[in] service_event_publisher_qos QOS profile for the service event publisher.
+   * \param[in] group Callback group to handle the reply to service calls.
+   * \return Shared pointer to the created client.
+   */
+  template<typename ServiceT>
+  typename Client<ServiceT>::SharedPtr
+  create_client(
+    const std::string & service_name,
+    const rclcpp::QoS & qos,
+    const rclcpp::QoS & service_event_publisher_qos,
+    rclcpp::CallbackGroup::SharedPtr group);
+
   /// Create and return a Service.
   /**
    * \param[in] service_name The topic to service on.
@@ -304,6 +320,25 @@ public:
     CallbackT && callback,
     const rclcpp::QoS & qos = rclcpp::ServicesQoS(),
     rclcpp::CallbackGroup::SharedPtr group = nullptr);
+
+
+  /// Create and return a Service.
+  /**
+   * \param[in] service_name The topic to service on.
+   * \param[in] callback User-defined callback function.
+   * \param[in] qos Quality of service profile for the service.
+   * \param[in] service_event_publisher_qos QOS profile for the service event publisher.
+   * \param[in] group Callback group to call the service.
+   * \return Shared pointer to the created service.
+   */
+  template<typename ServiceT, typename CallbackT>
+  typename rclcpp::Service<ServiceT>::SharedPtr
+  create_service(
+    const std::string & service_name,
+    CallbackT && callback,
+    const rclcpp::QoS & qos,
+    const rclcpp::QoS & service_event_publisher_qos,
+    rclcpp::CallbackGroup::SharedPtr group);
 
   /// Create and return a GenericPublisher.
   /**
