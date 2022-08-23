@@ -545,7 +545,11 @@ protected:
       throw std::runtime_error("cannot publish msg which is a null pointer");
     }
 
-    // TODO(hsgwa): support TypeAdapter for CARET
+    TRACEPOINT(
+      rclcpp_intra_publish,
+      static_cast<const void *>(publisher_handle_.get()),
+      msg.get(),
+      static_cast<const uint64_t>(TimeStampRosMessage::value(*msg).second));
 
     ipm->template do_intra_process_publish<ROSMessageType, ROSMessageType, AllocatorT>(
       intra_process_publisher_id_,
