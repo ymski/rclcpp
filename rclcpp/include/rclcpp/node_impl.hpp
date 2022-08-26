@@ -248,8 +248,8 @@ Node::create_service(
     qos_profile,
     group,
     node_options_.enable_service_introspection()
-    );
-  
+  );
+
   node_service_introspection_->register_service(serv);
   return serv;
 }

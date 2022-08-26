@@ -29,32 +29,33 @@ namespace node_interfaces
 {
 class NodeServiceIntrospection : public NodeServiceIntrospectionInterface
 {
-  public:
-    RCLCPP_SMART_PTR_ALIASES_ONLY(NodeServiceIntrospection)
+public:
+  RCLCPP_SMART_PTR_ALIASES_ONLY(NodeServiceIntrospection)
 
-    RCLCPP_PUBLIC
-    explicit NodeServiceIntrospection(
+  RCLCPP_PUBLIC
+  explicit NodeServiceIntrospection(
     rclcpp::node_interfaces::NodeBaseInterface::SharedPtr & node_base,
     const rclcpp::node_interfaces::NodeParametersInterface::SharedPtr & node_parameters);
 
-    RCLCPP_PUBLIC
-    size_t
-    register_service(rclcpp::ServiceBase::SharedPtr service) override;
+  RCLCPP_PUBLIC
+  size_t
+  register_service(rclcpp::ServiceBase::SharedPtr service) override;
 
-    RCLCPP_PUBLIC
-    size_t
-    register_client(rclcpp::ClientBase::SharedPtr client) override;
+  RCLCPP_PUBLIC
+  size_t
+  register_client(rclcpp::ClientBase::SharedPtr client) override;
 
-    RCLCPP_PUBLIC
-    ~NodeServiceIntrospection() override = default;
+  RCLCPP_PUBLIC
+  ~NodeServiceIntrospection() override = default;
 
-  private:
-    rclcpp::node_interfaces::NodeBaseInterface::SharedPtr node_base_;
-    std::vector<rclcpp::ServiceBase::WeakPtr> services_;
-    std::vector<rclcpp::ClientBase::WeakPtr> clients_;
-    rclcpp::node_interfaces::PostSetParametersCallbackHandle::SharedPtr post_set_parameters_callback_handle_;
+private:
+  rclcpp::node_interfaces::NodeBaseInterface::SharedPtr node_base_;
+  std::vector<rclcpp::ServiceBase::WeakPtr> services_;
+  std::vector<rclcpp::ClientBase::WeakPtr> clients_;
+  rclcpp::node_interfaces::PostSetParametersCallbackHandle::SharedPtr
+    post_set_parameters_callback_handle_;
 };
 
-} // namespace node_interfaces
+}  // namespace node_interfaces
 }  // namespace rclcpp
-#endif // RCLCPP__NODE_INTERFACES__NODE_SERVICE_INTROSPECTION_HPP_
+#endif  // RCLCPP__NODE_INTERFACES__NODE_SERVICE_INTROSPECTION_HPP_

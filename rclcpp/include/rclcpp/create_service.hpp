@@ -62,15 +62,15 @@ create_service(
 template<typename ServiceT, typename CallbackT>
 typename rclcpp::Service<ServiceT>::SharedPtr
 create_service(
-    std::shared_ptr<node_interfaces::NodeBaseInterface> node_base,
-    std::shared_ptr<node_interfaces::NodeServicesInterface> node_services,
-    std::shared_ptr<node_interfaces::NodeClockInterface> node_clock,
-    const std::string & service_name,
-    CallbackT && callback,
-    const rmw_qos_profile_t & qos_profile,
-    rclcpp::CallbackGroup::SharedPtr group,
-    bool enable_service_introspection
-    )
+  std::shared_ptr<node_interfaces::NodeBaseInterface> node_base,
+  std::shared_ptr<node_interfaces::NodeServicesInterface> node_services,
+  std::shared_ptr<node_interfaces::NodeClockInterface> node_clock,
+  const std::string & service_name,
+  CallbackT && callback,
+  const rmw_qos_profile_t & qos_profile,
+  rclcpp::CallbackGroup::SharedPtr group,
+  bool enable_service_introspection
+)
 {
   return create_service<ServiceT, CallbackT>(
     node_base, node_services, node_clock, service_name, std::forward<CallbackT>(callback),
@@ -82,16 +82,16 @@ create_service(
 template<typename ServiceT, typename CallbackT>
 typename rclcpp::Service<ServiceT>::SharedPtr
 create_service(
-    std::shared_ptr<node_interfaces::NodeBaseInterface> node_base,
-    std::shared_ptr<node_interfaces::NodeServicesInterface> node_services,
-    std::shared_ptr<node_interfaces::NodeClockInterface> node_clock,
-    const std::string & service_name,
-    CallbackT && callback,
-    const rmw_qos_profile_t & qos_profile,
-    const rmw_qos_profile_t & service_event_publisher_qos_profile,
-    rclcpp::CallbackGroup::SharedPtr group,
-    bool enable_service_introspection
-    )
+  std::shared_ptr<node_interfaces::NodeBaseInterface> node_base,
+  std::shared_ptr<node_interfaces::NodeServicesInterface> node_services,
+  std::shared_ptr<node_interfaces::NodeClockInterface> node_clock,
+  const std::string & service_name,
+  CallbackT && callback,
+  const rmw_qos_profile_t & qos_profile,
+  const rmw_qos_profile_t & service_event_publisher_qos_profile,
+  rclcpp::CallbackGroup::SharedPtr group,
+  bool enable_service_introspection
+)
 {
   rclcpp::AnyServiceCallback<ServiceT> any_service_callback;
   any_service_callback.set(std::forward<CallbackT>(callback));

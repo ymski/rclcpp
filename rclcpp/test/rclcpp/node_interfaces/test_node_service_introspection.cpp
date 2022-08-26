@@ -73,8 +73,10 @@ TEST_F(TestNodeServiceIntrospection, construct_from_node)
   ASSERT_NE(nullptr, node_service_introspection);
   ASSERT_TRUE(node->get_parameter(RCL_SERVICE_INTROSPECTION_PUBLISH_CLIENT_PARAMETER));
   ASSERT_TRUE(node->get_parameter(RCL_SERVICE_INTROSPECTION_PUBLISH_SERVICE_PARAMETER));
-  ASSERT_TRUE(node->get_parameter(RCL_SERVICE_INTROSPECTION_PUBLISH_CLIENT_EVENT_CONTENT_PARAMETER));
-  ASSERT_TRUE(node->get_parameter(RCL_SERVICE_INTROSPECTION_PUBLISH_SERVICE_EVENT_CONTENT_PARAMETER));
+  ASSERT_TRUE(
+    node->get_parameter(RCL_SERVICE_INTROSPECTION_PUBLISH_CLIENT_EVENT_CONTENT_PARAMETER));
+  ASSERT_TRUE(
+    node->get_parameter(RCL_SERVICE_INTROSPECTION_PUBLISH_SERVICE_EVENT_CONTENT_PARAMETER));
 }
 
 TEST_F(TestNodeServiceIntrospection, register_services_and_clients)
@@ -94,6 +96,4 @@ TEST_F(TestNodeServiceIntrospection, register_services_and_clients)
 
   ASSERT_EQ(1, node_service_introspection->register_service(service));
   ASSERT_EQ(1, node_service_introspection->register_client(client));
-
-
 }

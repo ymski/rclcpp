@@ -27,81 +27,82 @@ NodeServiceIntrospection::NodeServiceIntrospection(
 : node_base_(node_base)
 {
   // declare service introspection parameters
-  if (!node_parameters->has_parameter(RCL_SERVICE_INTROSPECTION_PUBLISH_SERVICE_PARAMETER)) {
-    node_parameters->declare_parameter(RCL_SERVICE_INTROSPECTION_PUBLISH_SERVICE_PARAMETER,
-        rclcpp::ParameterValue(true));
+  if (!node_parameters->has_parameter("publish_service_events")) {
+    node_parameters->declare_parameter("publish_service_events", rclcpp::ParameterValue(true));
   }
-  if (!node_parameters->has_parameter(RCL_SERVICE_INTROSPECTION_PUBLISH_SERVICE_EVENT_CONTENT_PARAMETER)) {
-    node_parameters->declare_parameter(RCL_SERVICE_INTROSPECTION_PUBLISH_SERVICE_EVENT_CONTENT_PARAMETER,
-        rclcpp::ParameterValue(true));
+  if (!node_parameters->has_parameter("publish_service_content")) {
+    node_parameters->declare_parameter("publish_service_content", rclcpp::ParameterValue(true));
   }
-  if (!node_parameters->has_parameter(RCL_SERVICE_INTROSPECTION_PUBLISH_CLIENT_PARAMETER)) {
-    node_parameters->declare_parameter(RCL_SERVICE_INTROSPECTION_PUBLISH_CLIENT_PARAMETER,
-        rclcpp::ParameterValue(true));
+  if (!node_parameters->has_parameter("publish_client_events")) {
+    node_parameters->declare_parameter("publish_client_events", rclcpp::ParameterValue(true));
   }
-  if (!node_parameters->has_parameter(RCL_SERVICE_INTROSPECTION_PUBLISH_CLIENT_EVENT_CONTENT_PARAMETER)) {
-    node_parameters->declare_parameter(RCL_SERVICE_INTROSPECTION_PUBLISH_CLIENT_EVENT_CONTENT_PARAMETER,
-        rclcpp::ParameterValue(true));
+  if (!node_parameters->has_parameter("publish_client_content")) {
+    node_parameters->declare_parameter("publish_client_content", rclcpp::ParameterValue(true));
   }
 
   std::function<void(const std::vector<rclcpp::Parameter> &)>
-    configure_service_introspection_callback = 
+  configure_service_introspection_callback =
     [this](const std::vector<rclcpp::Parameter> & parameters) {
       rcl_ret_t ret;
-      for (const auto & param: parameters) {
-        if (param.get_name() == RCL_SERVICE_INTROSPECTION_PUBLISH_SERVICE_PARAMETER) {
+      for (const auto & param : parameters) {
+        if (param.get_name() == "publish_service_events") {
           for (auto srv = services_.begin(); srv != services_.end(); ++srv) {
             if (srv->expired()) {
               srv = services_.erase(srv);
             } else {
               ret = rcl_service_introspection_configure_server_service_events(
-                  srv->lock()->get_service_handle().get(),
-                  this->node_base_->get_rcl_node_handle(),
-                  param.get_value<bool>());
+                srv->lock()->get_service_handle().get(),
+                this->node_base_->get_rcl_node_handle(),
+                param.get_value<bool>());
               if (RCL_RET_OK != ret) {
                 throw std::runtime_error(
-                    std::string("Failed to configure service introspection events with error ") + std::to_string(ret));
+                        std::string(
+                          "Failed to configure service introspection events with error ") +
+                        std::to_string(ret));
               }
             }
           }
-        } else if (param.get_name() == RCL_SERVICE_INTROSPECTION_PUBLISH_CLIENT_PARAMETER) {
+        } else if (param.get_name() == "publish_client_events") {
           for (auto clt = clients_.begin(); clt != clients_.end(); ++clt) {
-            if (clt->expired()){
+            if (clt->expired()) {
               clt = clients_.erase(clt);
             } else {
               ret = rcl_service_introspection_configure_client_service_events(
-                  clt->lock()->get_client_handle().get(),
-                  this->node_base_->get_rcl_node_handle(),
-                  param.get_value<bool>());
+                clt->lock()->get_client_handle().get(),
+                this->node_base_->get_rcl_node_handle(),
+                param.get_value<bool>());
               if (RCL_RET_OK != ret) {
                 throw std::runtime_error(
-                    std::string("Failed to configure service introspection events with error ") + std::to_string(ret));
+                        std::string(
+                          "Failed to configure service introspection events with error ") +
+                        std::to_string(ret));
               }
             }
           }
-        } else if (param.get_name() == RCL_SERVICE_INTROSPECTION_PUBLISH_SERVICE_EVENT_CONTENT_PARAMETER) {
+        } else if (param.get_name() == "publish_service_content") {
           for (auto srv = services_.begin(); srv != services_.end(); ++srv) {
-            if (srv->expired()){
+            if (srv->expired()) {
               srv = services_.erase(srv);
             } else {
               rcl_service_introspection_configure_server_service_event_message_payload(
-                  srv->lock()->get_service_handle().get(), param.get_value<bool>());
+                srv->lock()->get_service_handle().get(), param.get_value<bool>());
             }
           }
-        } else if (param.get_name() == RCL_SERVICE_INTROSPECTION_PUBLISH_CLIENT_EVENT_CONTENT_PARAMETER) {
+        } else if (param.get_name() == "publish_client_content") {
           for (auto clt = clients_.begin(); clt != clients_.end(); ++clt) {
-            if (clt->expired()){
+            if (clt->expired()) {
               clt = clients_.erase(clt);
             } else {
               rcl_service_introspection_configure_client_service_event_message_payload(
-                  clt->lock()->get_client_handle().get(), param.get_value<bool>());
+                clt->lock()->get_client_handle().get(), param.get_value<bool>());
             }
           }
         }
       }
     };
   // register callbacks
-  post_set_parameters_callback_handle_ = node_parameters->add_post_set_parameters_callback(configure_service_introspection_callback);
+  post_set_parameters_callback_handle_ = node_parameters->add_post_set_parameters_callback(
+    configure_service_introspection_callback);
 }
 
 size_t

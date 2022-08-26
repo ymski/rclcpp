@@ -71,8 +71,8 @@ create_client(
   bool enable_service_introspection)
 {
   return create_client<ServiceT>(
-      node_base, node_graph, node_services, node_clock, service_name, qos_profile,
-      rcl_publisher_get_default_options().qos, group, enable_service_introspection);
+    node_base, node_graph, node_services, node_clock, service_name, qos_profile,
+    rcl_publisher_get_default_options().qos, group, enable_service_introspection);
 }
 
 /// Create a service client with a given type and qos profiles
@@ -90,7 +90,6 @@ create_client(
   rclcpp::CallbackGroup::SharedPtr group,
   bool enable_service_introspection)
 {
-
   rcl_client_options_t options = rcl_client_get_default_options();
   options.qos = qos_profile;
   if (enable_service_introspection) {

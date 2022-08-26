@@ -92,8 +92,9 @@ NodeParameters::NodeParameters(
   publisher_options.allocator = std::make_shared<AllocatorT>();
 
   if (start_parameter_services) {
-    parameter_service_ = std::make_shared<ParameterService>(node_base, node_services, node_clock,
-        this, enable_service_introspection_for_parameter_service);
+    parameter_service_ = std::make_shared<ParameterService>(
+      node_base, node_services, node_clock,
+      this, enable_service_introspection_for_parameter_service);
   }
 
   if (start_parameter_event_publisher) {

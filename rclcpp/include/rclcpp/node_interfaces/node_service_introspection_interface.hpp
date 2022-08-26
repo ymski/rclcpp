@@ -26,25 +26,22 @@ namespace node_interfaces
 {
 class NodeServiceIntrospectionInterface
 {
-  public:
-    RCLCPP_SMART_PTR_ALIASES_ONLY(NodeServiceIntrospectionInterface)
+public:
+  RCLCPP_SMART_PTR_ALIASES_ONLY(NodeServiceIntrospectionInterface)
 
-    RCLCPP_PUBLIC
-    size_t
-    virtual register_service(rclcpp::ServiceBase::SharedPtr service) = 0;
+  RCLCPP_PUBLIC
+  size_t
+  virtual register_service(rclcpp::ServiceBase::SharedPtr service) = 0;
 
-    RCLCPP_PUBLIC
-    size_t
-    virtual register_client(rclcpp::ClientBase::SharedPtr client) = 0;
+  RCLCPP_PUBLIC
+  size_t
+  virtual register_client(rclcpp::ClientBase::SharedPtr client) = 0;
 
-    RCLCPP_PUBLIC
-    virtual
-    ~NodeServiceIntrospectionInterface() = default;
+  RCLCPP_PUBLIC
+  virtual
+  ~NodeServiceIntrospectionInterface() = default;
 };
 
-} // namespace node_interfaces
+}  // namespace node_interfaces
 }  // namespace rclcpp
-#endif // RCLCPP__NODE_INTERFACES__NODE_SERVICE_INTROSPECTION_INTERFACE_HPP_
-
-
-
+#endif  // RCLCPP__NODE_INTERFACES__NODE_SERVICE_INTROSPECTION_INTERFACE_HPP_

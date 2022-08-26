@@ -15,28 +15,19 @@
 #include <rcl/service_introspection.h>
 #include <rmw/rmw.h>
 
-#include <iostream>
 #include <map>
-#include <sstream>
 #include <string>
-#include <memory>
-#include <test_msgs/srv/detail/basic_types__struct.hpp>
-#include <utility>
-#include <ostream>
 
 #include "gmock/gmock.h"
+#include "rclcpp/rclcpp.hpp"
 #include "rclcpp/exceptions.hpp"
 #include "rclcpp/logging.hpp"
 #include "rclcpp/node_options.hpp"
 #include "rclcpp/parameter.hpp"
-#include "rclcpp/rclcpp.hpp"
 
 #include "../mocking_utils/patch.hpp"
 #include "../utils/rclcpp_gtest_macros.hpp"
 
-#include "rcl_interfaces/srv/list_parameters.hpp"
-#include "test_msgs/srv/empty.hpp"
-#include "test_msgs/srv/empty.h"
 #include "test_msgs/srv/basic_types.hpp"
 #include "service_msgs/msg/service_event_info.hpp"
 
@@ -72,9 +63,9 @@ protected:
       };
 
     auto callback = [this](const std::shared_ptr<const BasicTypes::Event> & msg) {
-      events.push_back(msg);
-      (void)msg;
-    };
+        events.push_back(msg);
+        (void)msg;
+      };
 
     client = node->create_client<BasicTypes>("service");
     service = node->create_service<BasicTypes>("service", srv_callback);
@@ -93,7 +84,6 @@ protected:
   rclcpp::Subscription<BasicTypes::Event>::SharedPtr sub;
   std::vector<std::shared_ptr<const BasicTypes::Event>> events;
   std::chrono::milliseconds timeout = std::chrono::milliseconds(1000);
-
 };
 
 /*
@@ -102,8 +92,7 @@ protected:
 TEST_F(TestServiceIntrospection, construction_and_destruction)
 {
   auto callback =
-    [](const BasicTypes::Request::SharedPtr &, const BasicTypes::Response::SharedPtr &) {
-    };
+    [](const BasicTypes::Request::SharedPtr &, const BasicTypes::Response::SharedPtr &) {};
   {
     auto service = node->create_service<BasicTypes>("test_create_service", callback);
     EXPECT_NE(nullptr, service->get_service_handle());
@@ -244,7 +233,7 @@ TEST_F(TestServiceIntrospection, service_introspection_enable_disable_event_cont
     rclcpp::spin_some(node);
   }
   EXPECT_EQ(events.size(), 4U);
-  for (const auto & event: events) {
+  for (const auto & event : events) {
     EXPECT_EQ(event->request.size(), 0U);
     EXPECT_EQ(event->response.size(), 0U);
   }
@@ -262,7 +251,7 @@ TEST_F(TestServiceIntrospection, service_introspection_enable_disable_event_cont
     rclcpp::spin_some(node);
   }
   EXPECT_EQ(events.size(), 4U);
-  for (const auto & event: events) {
+  for (const auto & event : events) {
     switch (event->info.event_type) {
       case ServiceEventInfo::REQUEST_SENT:
         EXPECT_EQ(event->request.size(), 1U);
@@ -291,7 +280,7 @@ TEST_F(TestServiceIntrospection, service_introspection_enable_disable_event_cont
     rclcpp::spin_some(node);
   }
   EXPECT_EQ(events.size(), 4U);
-  for (const auto & event: events) {
+  for (const auto & event : events) {
     switch (event->info.event_type) {
       case ServiceEventInfo::REQUEST_SENT:
         EXPECT_EQ(event->request.size(), 0U);
@@ -320,7 +309,7 @@ TEST_F(TestServiceIntrospection, service_introspection_enable_disable_event_cont
     rclcpp::spin_some(node);
   }
   EXPECT_EQ(events.size(), 4U);
-  for (const auto & event: events) {
+  for (const auto & event : events) {
     switch (event->info.event_type) {
       case ServiceEventInfo::REQUEST_SENT:
       case ServiceEventInfo::REQUEST_RECEIVED:
