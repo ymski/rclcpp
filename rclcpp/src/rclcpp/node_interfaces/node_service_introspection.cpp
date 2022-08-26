@@ -59,7 +59,8 @@ NodeServiceIntrospection::NodeServiceIntrospection(
                   this->node_base_->get_rcl_node_handle(),
                   param.get_value<bool>());
               if (RCL_RET_OK != ret) {
-                throw std::runtime_error("Could not configure service introspection events");
+                throw std::runtime_error(
+                    std::string("Failed to configure service introspection events with error ") + std::to_string(ret));
               }
             }
           }
@@ -73,7 +74,8 @@ NodeServiceIntrospection::NodeServiceIntrospection(
                   this->node_base_->get_rcl_node_handle(),
                   param.get_value<bool>());
               if (RCL_RET_OK != ret) {
-                throw std::runtime_error("Could not configure service introspection events");
+                throw std::runtime_error(
+                    std::string("Failed to configure service introspection events with error ") + std::to_string(ret));
               }
             }
           }
@@ -102,16 +104,18 @@ NodeServiceIntrospection::NodeServiceIntrospection(
   post_set_parameters_callback_handle_ = node_parameters->add_post_set_parameters_callback(configure_service_introspection_callback);
 }
 
-void
+size_t
 NodeServiceIntrospection::register_client(rclcpp::ClientBase::SharedPtr client)
 {
   std::weak_ptr<rclcpp::ClientBase> weak_client = client;
   clients_.push_back(weak_client);
+  return clients_.size();
 }
 
-void
+size_t
 NodeServiceIntrospection::register_service(rclcpp::ServiceBase::SharedPtr service)
 {
   std::weak_ptr<rclcpp::ServiceBase> weak_service = service;
   services_.push_back(weak_service);
+  return services_.size();
 }

@@ -597,6 +597,12 @@ Node::get_node_services_interface()
   return node_services_;
 }
 
+rclcpp::node_interfaces::NodeServiceIntrospectionInterface::SharedPtr
+Node::get_node_service_introspection_interface()
+{
+  return node_service_introspection_;
+}
+
 rclcpp::node_interfaces::NodeParametersInterface::SharedPtr
 Node::get_node_parameters_interface()
 {

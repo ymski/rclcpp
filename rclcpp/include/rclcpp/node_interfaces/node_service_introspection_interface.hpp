@@ -30,11 +30,11 @@ class NodeServiceIntrospectionInterface
     RCLCPP_SMART_PTR_ALIASES_ONLY(NodeServiceIntrospectionInterface)
 
     RCLCPP_PUBLIC
-    void
+    size_t
     virtual register_service(rclcpp::ServiceBase::SharedPtr service) = 0;
 
     RCLCPP_PUBLIC
-    void
+    size_t
     virtual register_client(rclcpp::ClientBase::SharedPtr client) = 0;
 
     RCLCPP_PUBLIC

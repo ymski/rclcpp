@@ -38,11 +38,11 @@ class NodeServiceIntrospection : public NodeServiceIntrospectionInterface
     const rclcpp::node_interfaces::NodeParametersInterface::SharedPtr & node_parameters);
 
     RCLCPP_PUBLIC
-    void
+    size_t
     register_service(rclcpp::ServiceBase::SharedPtr service) override;
 
     RCLCPP_PUBLIC
-    void
+    size_t
     register_client(rclcpp::ClientBase::SharedPtr client) override;
 
     RCLCPP_PUBLIC

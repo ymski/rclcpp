@@ -1447,6 +1447,11 @@ public:
   rclcpp::node_interfaces::NodeServicesInterface::SharedPtr
   get_node_services_interface();
 
+  /// Return the Node's internal NodeServicesInterface implementation.
+  RCLCPP_PUBLIC
+  rclcpp::node_interfaces::NodeServiceIntrospectionInterface::SharedPtr
+  get_node_service_introspection_interface();
+
   /// Return the Node's internal NodeWaitablesInterface implementation.
   RCLCPP_PUBLIC
   rclcpp::node_interfaces::NodeWaitablesInterface::SharedPtr

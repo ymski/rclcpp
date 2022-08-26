@@ -156,9 +156,11 @@ TEST_F(TestClient, construction_with_free_function) {
       node->get_node_base_interface(),
       node->get_node_graph_interface(),
       node->get_node_services_interface(),
+      node->get_node_clock_interface(),
       "service",
       rclcpp::ServicesQoS(),
-      nullptr);
+      nullptr,
+      true);
   }
   {
     ASSERT_THROW(
@@ -167,9 +169,11 @@ TEST_F(TestClient, construction_with_free_function) {
         node->get_node_base_interface(),
         node->get_node_graph_interface(),
         node->get_node_services_interface(),
+        node->get_node_clock_interface(),
         "invalid_?service",
         rclcpp::ServicesQoS(),
-        nullptr);
+        nullptr,
+        true);
     }, rclcpp::exceptions::InvalidServiceNameError);
   }
 }
