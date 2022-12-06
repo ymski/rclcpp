@@ -39,14 +39,16 @@ SubscriptionBase::SubscriptionBase(
   const rosidl_message_type_support_t & type_support_handle,
   const std::string & topic_name,
   const rcl_subscription_options_t & subscription_options,
-  bool is_serialized)
+  bool is_serialized,
+  bool use_runtime_type)
 : node_base_(node_base),
   node_handle_(node_base_->get_shared_rcl_node_handle()),
   node_logger_(rclcpp::get_node_logger(node_handle_.get())),
   use_intra_process_(false),
   intra_process_subscription_id_(0),
   type_support_(type_support_handle),
-  is_serialized_(is_serialized)
+  is_serialized_(is_serialized),
+  use_runtime_type_(use_runtime_type)
 {
   auto custom_deletor = [node_handle = this->node_handle_](rcl_subscription_t * rcl_subs)
     {
@@ -192,6 +194,12 @@ bool
 SubscriptionBase::is_serialized() const
 {
   return is_serialized_;
+}
+
+bool
+SubscriptionBase::use_runtime_type() const
+{
+  return use_runtime_type_;
 }
 
 size_t

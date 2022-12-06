@@ -84,7 +84,8 @@ public:
     const rosidl_message_type_support_t & type_support_handle,
     const std::string & topic_name,
     const rcl_subscription_options_t & subscription_options,
-    bool is_serialized = false);
+    bool is_serialized = false,
+    bool use_runtime_type = false);
 
   /// Destructor.
   RCLCPP_PUBLIC
@@ -226,6 +227,17 @@ public:
   RCLCPP_PUBLIC
   bool
   is_serialized() const;
+
+  /// Return if the subscription should use runtime type
+  /**
+   * This will cause the subscription to use the take_serialized and handle_runtime_type_message
+   * methods.
+   *
+   * \return `true` if the subscription should use runtime type, `false` otherwise
+   */
+  RCLCPP_PUBLIC
+  bool
+  use_runtime_type() const;
 
   /// Get matching publisher count.
   /** \return The number of publishers on this topic. */
@@ -574,6 +586,7 @@ private:
 
   rosidl_message_type_support_t type_support_;
   bool is_serialized_;
+  bool use_runtime_type_;
 
   std::atomic<bool> subscription_in_use_by_wait_set_{false};
   std::atomic<bool> intra_process_subscription_waitable_in_use_by_wait_set_{false};
