@@ -492,6 +492,7 @@ public:
     std::shared_ptr<ROSMessageType> message,
     const rclcpp::MessageInfo & message_info)
   {
+    TRACEPOINT(dispatch_subscription_callback, message.get(), static_cast<const void *>(this));
     TRACEPOINT(callback_start, static_cast<const void *>(this), false);
     // Check if the variant is "unset", throw if it is.
     if (callback_variant_.index() == 0) {
@@ -671,6 +672,10 @@ public:
     std::shared_ptr<const SubscribedType> message,
     const rclcpp::MessageInfo & message_info)
   {
+    TRACEPOINT(
+      dispatch_intra_process_subscription_callback,
+      message.get(),
+      static_cast<const void *>(this));
     TRACEPOINT(callback_start, static_cast<const void *>(this), true);
     // Check if the variant is "unset", throw if it is.
     if (callback_variant_.index() == 0) {
@@ -801,6 +806,10 @@ public:
     std::unique_ptr<SubscribedType, SubscribedTypeDeleter> message,
     const rclcpp::MessageInfo & message_info)
   {
+    TRACEPOINT(
+      dispatch_intra_process_subscription_callback,
+      message.get(),
+      static_cast<const void *>(this));
     TRACEPOINT(callback_start, static_cast<const void *>(this), true);
     // Check if the variant is "unset", throw if it is.
     if (callback_variant_.index() == 0) {
