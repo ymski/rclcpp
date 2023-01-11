@@ -459,7 +459,7 @@ private:
           Deleter deleter = message.get_deleter();
           auto ptr = MessageAllocTraits::allocate(allocator, 1);
           MessageAllocTraits::construct(allocator, ptr, *message);
-
+          
           subscription->provide_intra_process_data(std::move(MessageUniquePtr(ptr, deleter)));
         }
 
