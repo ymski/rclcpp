@@ -20,6 +20,8 @@
 #include <utility>
 #include <vector>
 
+#include "tracetools/tracetools.h"
+
 #include "rclcpp/experimental/buffers/buffer_implementation_base.hpp"
 #include "rclcpp/logger.hpp"
 #include "rclcpp/logging.hpp"
@@ -51,6 +53,7 @@ public:
     if (capacity == 0) {
       throw std::invalid_argument("capacity must be a positive, non-zero value");
     }
+    TRACEPOINT(construct_ring_buffer, static_cast<const void *>(this), capacity_);
   }
 
   virtual ~RingBufferImplementation() {}
@@ -67,6 +70,7 @@ public:
 
     write_index_ = next_(write_index_);
     ring_buffer_[write_index_] = std::move(request);
+    TRACEPOINT(ring_buffer_enqueue, static_cast<const void *>(this), write_index_, is_full_());
 
     if (is_full_()) {
       read_index_ = next_(read_index_);
@@ -91,6 +95,7 @@ public:
     }
 
     auto request = std::move(ring_buffer_[read_index_]);
+    TRACEPOINT(ring_buffer_dequeue, static_cast<const void *>(this), read_index_);
     read_index_ = next_(read_index_);
 
     size_--;
@@ -136,7 +141,10 @@ public:
     return is_full_();
   }
 
-  void clear() {}
+  void clear()
+  {
+    TRACEPOINT(ring_buffer_clear, static_cast<const void *>(this));
+  }
 
 private:
   /// Get the next index value for the ring buffer
