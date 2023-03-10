@@ -94,7 +94,7 @@ public:
 
     buffer_ = std::move(buffer_impl);
 
-    TRACEPOINT(buf_to_typedIPB, buffer_.get(), static_cast<const void *>(this));
+    TRACEPOINT(buffer_to_typedIPB, buffer_.get(), static_cast<const void *>(this));
 
     if (!allocator) {
       message_allocator_ = std::make_shared<MessageAlloc>();
