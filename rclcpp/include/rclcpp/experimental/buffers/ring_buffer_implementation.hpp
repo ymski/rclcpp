@@ -70,7 +70,7 @@ public:
 
     write_index_ = next_(write_index_);
     ring_buffer_[write_index_] = std::move(request);
-    TRACEPOINT(ring_buffer_enqueue, static_cast<const void *>(this), write_index_, is_full_());
+    TRACEPOINT(ring_buffer_enqueue, static_cast<const void *>(this), write_index_, size_+1, is_full_());
 
     if (is_full_()) {
       read_index_ = next_(read_index_);
@@ -95,7 +95,7 @@ public:
     }
 
     auto request = std::move(ring_buffer_[read_index_]);
-    TRACEPOINT(ring_buffer_dequeue, static_cast<const void *>(this), read_index_);
+    TRACEPOINT(ring_buffer_dequeue, static_cast<const void *>(this), read_index_, size_-1);
     read_index_ = next_(read_index_);
 
     size_--;
