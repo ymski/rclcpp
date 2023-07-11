@@ -456,7 +456,7 @@ protected:
   {
     TRACEPOINT(
       rclcpp_publish,
-      nullptr,
+      static_cast<const void *>(publisher_handle_.get()),
       static_cast<const void *>(&msg));
     auto status = rcl_publish(publisher_handle_.get(), &msg, nullptr);
 
