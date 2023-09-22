@@ -128,6 +128,13 @@ public:
       rclcpp_subscription_callback_added,
       static_cast<const void *>(this),
       static_cast<const void *>(&callback));
+
+#ifndef TRACETOOLS_DISABLED
+    TRACEPOINT(
+      rclcpp_callback_register,
+      static_cast<const void *>(&callback),
+      tracetools::get_symbol(callback));
+#endif
   }
 
   RCLCPP_PUBLIC
