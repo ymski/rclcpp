@@ -31,6 +31,7 @@
 #include "rclcpp/subscription_base.hpp"
 #include "rclcpp/typesupport_helpers.hpp"
 #include "rclcpp/visibility_control.hpp"
+#include "tracetools/tracetools.h"
 
 namespace rclcpp
 {
@@ -119,6 +120,14 @@ public:
         options.event_callbacks.message_lost_callback,
         RCL_SUBSCRIPTION_MESSAGE_LOST);
     }
+    TRACEPOINT(
+      rclcpp_subscription_init,
+      static_cast<const void *>(get_subscription_handle().get()),
+      static_cast<const void *>(this));
+    TRACEPOINT(
+      rclcpp_subscription_callback_added,
+      static_cast<const void *>(this),
+      static_cast<const void *>(&callback));
   }
 
   RCLCPP_PUBLIC
