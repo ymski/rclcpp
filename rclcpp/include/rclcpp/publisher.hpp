@@ -482,6 +482,11 @@ protected:
       // TODO(Karsten1987): support serialized message passed by intraprocess
       throw std::runtime_error("storing serialized messages in intra process is not supported yet");
     }
+    TRACEPOINT(
+      rclcpp_publish,
+      static_cast<const void *>(publisher_handle_.get()),
+      static_cast<const void *>(&msg));
+    auto status = rcl_publish(publisher_handle_.get(), &msg, nullptr);
     auto status = rcl_publish_serialized_message(publisher_handle_.get(), serialized_msg, nullptr);
     if (RCL_RET_OK != status) {
       rclcpp::exceptions::throw_from_rcl_error(status, "failed to publish serialized message");
