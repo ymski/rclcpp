@@ -48,7 +48,9 @@ GenericSubscription::handle_serialized_message(
   const std::shared_ptr<rclcpp::SerializedMessage> & message,
   const rclcpp::MessageInfo &)
 {
+  TRACEPOINT(callback_start, static_cast<const void *>(this), false);
   callback_(message);
+  TRACEPOINT(callback_end, static_cast<const void *>(this));
 }
 
 void GenericSubscription::handle_loaned_message(
