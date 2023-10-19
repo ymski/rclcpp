@@ -120,6 +120,7 @@ public:
         options.event_callbacks.message_lost_callback,
         RCL_SUBSCRIPTION_MESSAGE_LOST);
     }
+    auto callback_ptr = static_cast<const void *>(&callback_);
     TRACEPOINT(
       rclcpp_subscription_init,
       static_cast<const void *>(get_subscription_handle().get()),
@@ -127,12 +128,12 @@ public:
     TRACEPOINT(
       rclcpp_subscription_callback_added,
       static_cast<const void *>(this),
-      static_cast<const void *>(&callback));
+      callback_ptr);
 
 #ifndef TRACETOOLS_DISABLED
     TRACEPOINT(
       rclcpp_callback_register,
-      static_cast<const void *>(&callback),
+      callback_ptr,
       tracetools::get_symbol(callback));
 #endif
   }

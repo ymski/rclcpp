@@ -22,6 +22,8 @@
 
 #include "rclcpp/exceptions.hpp"
 
+#include "tracetools/tracetools.h"
+
 namespace rclcpp
 {
 
@@ -46,11 +48,20 @@ void GenericSubscription::handle_message(
 void
 GenericSubscription::handle_serialized_message(
   const std::shared_ptr<rclcpp::SerializedMessage> & message,
-  const rclcpp::MessageInfo &)
+  const rclcpp::MessageInfo & message_info)
 {
-  TRACEPOINT(callback_start, static_cast<const void *>(this), false);
+    auto callback_ptr = static_cast<const void *>(&callback_);
+    auto rmw_info = message_info.get_rmw_message_info();
+    auto source_timestamp = rmw_info.source_timestamp;
+    TRACEPOINT(
+      dispatch_subscription_callback,
+      message.get(),
+      callback_ptr,
+      source_timestamp,
+      static_cast<const uint64_t>(rclcpp::TimeStamp<rclcpp::SerializedMessage>::value(*message).second));
+  TRACEPOINT(callback_start, callback_ptr, false);
   callback_(message);
-  TRACEPOINT(callback_end, static_cast<const void *>(this));
+  TRACEPOINT(callback_end, callback_ptr);
 }
 
 void GenericSubscription::handle_loaned_message(
