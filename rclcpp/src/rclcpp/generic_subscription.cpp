@@ -58,7 +58,7 @@ GenericSubscription::handle_serialized_message(
       message.get(),
       callback_ptr,
       source_timestamp,
-      static_cast<const uint64_t>(rclcpp::TimeStamp<rclcpp::SerializedMessage>::value(*message).second));
+      0);
   TRACEPOINT(callback_start, callback_ptr, false);
   callback_(message);
   TRACEPOINT(callback_end, callback_ptr);
