@@ -22,8 +22,6 @@
 
 #include "rclcpp/exceptions.hpp"
 
-#include "tracetools/tracetools.h"
-
 namespace rclcpp
 {
 
